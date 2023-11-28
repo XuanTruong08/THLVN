@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style-quanlyTK.css">
-    <title>Quản Lý Thông Tin Tài Khoản</title>
+    <title>Quản Lý Thông Tin Sách</title>
 </head>
 <body>
-		<?php include "header.php" ; ?>
-
+		<?php include "header.php" ; 
+		if (!empty($_SESSION['username'])) {?>
+		
         <div class="content" >
-            <div align="center"><h2>Quản lý thông tin tài khoản</h2></div>
+            <div align="center"><h2>Quản lý thông tin Sách</h2></div>
             <table class="customer-table">
                 <thead>
                     <tr>
@@ -46,6 +47,8 @@
         </div>
         
     </div>
-
+<?php	 
+}
+?>
 </body>
 </html>

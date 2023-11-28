@@ -1,7 +1,5 @@
 <?php
 	session_start();
-	var_dump($_SESSION['username']);
-	
 	// Kết nối cơ sở dữ liệu (kn là biến kết nối đã được khởi tạo trước đó)
 	include "connect_db.php";
 	if (!isset($_SESSION['username'])) {
@@ -44,6 +42,8 @@
 		// Truy vấn để lấy thông tin sản phẩm từ CSDL (product là bảng chứa thông tin sản phẩm)
 		$sql = "SELECT * FROM sanpham WHERE id_sp IN ($product_ids_string)";
 		$result = mysqli_query($kn, $sql);
+		$sql_delete = "DELETE FROM giohangtemp WHERE name = '".$user."'";
+		$delete = mysqli_query($kn, $sql_delete);
 		mysqli_close($kn);
 		// Kiểm tra kết quả truy vấn
 		if ($result && mysqli_num_rows($result) > 0) {
@@ -62,14 +62,9 @@
 				// echo "Price: $price<br>";
 				// echo "<br>";
 			}
-		} else {
-			// Giỏ hàng rỗng
-			echo "Giỏ hàng rỗng";
+			
 		}
-	} else {
-		// Giỏ hàng rỗng
-		echo "Giỏ hàng rỗng";
-	}
+	} 
 
 ?>
 <html>
@@ -91,39 +86,42 @@
 		if(isset($_GET['action'])){
 			function update_cart($add = false){
 			// Key = id; value = quantity
-			foreach ($_POST['quantity'] as $id => $quantity) {
-				if ($quantity == 0) {
-					unset($_SESSION["giohang"][$id]);
-				} else {
-					if ($add) {
-						// Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng chưa
-						if (isset($_SESSION["giohang"][$id])) {
-							// Nếu đã tồn tại, tăng số lượng lên
-							$_SESSION["giohang"][$id] += $quantity;
+				foreach ($_POST['quantity'] as $id => $quantity) {
+					if ($quantity == 0) {
+						unset($_SESSION["giohang"][$id]);
+					} else {
+						if ($add) {
+							// Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng chưa
+							if (isset($_SESSION["giohang"][$id])) {
+								// Nếu đã tồn tại, tăng số lượng lên
+								$_SESSION["giohang"][$id] += $quantity;
+							} else {
+								// Nếu chưa tồn tại, thêm sản phẩm vào giỏ hàng với số lượng mới
+								$_SESSION["giohang"][$id] = $quantity;
+							}
 						} else {
-							// Nếu chưa tồn tại, thêm sản phẩm vào giỏ hàng với số lượng mới
 							$_SESSION["giohang"][$id] = $quantity;
 						}
-					} else {
-						$_SESSION["giohang"][$id] = $quantity;
 					}
 				}
 			}
-		}
 		
 			switch($_GET['action']){
 				case "add":
-				update_cart(true);				
+				update_cart(true);	
+				header("Location: ./giohang.php");				
 				break;
 				
 				case "delete":
 					if(isset($_GET['id'])){
 						unset($_SESSION["giohang"][$_GET['id']]);
 					}
+					header("Location: ./giohang.php");
 				break;
 				case "submit":
 					if(isset($_POST['update_click'])){//Cập nhật số lượng
 						update_cart();
+						header("Location: ./giohang.php");
 					}elseif($_POST['order_click']){//Đặt hàng
 						if(empty($_POST['name'])){
 							$error="Bạn chưa nhập tên người nhận";
@@ -197,7 +195,7 @@ var_dump($insertOrder);
                 </div>
                 <div class="main-menu-right">
                     <ul id="main-menu-right2">
-					<li> <?php if(isset($_SESSION['username'])){echo 'Tài Khoản: '.$_SESSION['username'];} ?></li>
+					
                     <li><a href="http://localhost/bansach/THLVN/login.php"><button type="button" class="btn btn-outline-warning">Đổi mật khẩu</button></a></li>
 					<li><a href="http://localhost/bansach/THLVN/dangxuat.php"><button type="button" class="btn btn-outline-danger">Đăng Xuất</button></a></li>
                 </ul>
@@ -280,7 +278,7 @@ var_dump($insertOrder);
 			  <span class="input-group-text">Ghi chú a:</span>
 			  <textarea class="form-control" name="note" aria-label="With textarea" placeholder="Nhập ghi chú đơn hàng..."></textarea>
 			</div>
-			<input type="submit" name="order_click" class="btn btn-outline-success" value ="Xác nhận đặt hàng">
+			<input type="submit" name="order_click" class="btn btn-outline-success" value ="Đặt hàng">
 			</form>
 			</div>
 			<div class="label_list_item">

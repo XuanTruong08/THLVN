@@ -1,32 +1,36 @@
-<?php session_start(); ?>
 <?php
-require_once "connect_db.php";
+session_start();
+require_once "./connect_db.php";
 // Kiểm tra xem người dùng đã đăng nhập hay chưa
-var_dump($_SESSION['username']);
 if (!isset($_SESSION['username'])) {
     // Người dùng chưa đăng nhập, không cần xử lý giỏ hàng, chỉ cần đăng xuất
     logout();
-
 } else {
+	
     // Người dùng đã đăng nhập, lưu thông tin giỏ hàng vào cơ sở dữ liệu
     $user = $_SESSION['username'];
-    // // Xóa thông tin giỏ hàng cũ của người dùng trong cơ sở dữ liệu
-    $sql_delete = "DELETE FROM giohangtemp WHERE name = '$user'";
-    $kn->query($sql_delete);
-
-    // Lưu thông tin giỏ hàng mới vào cơ sở dữ liệu
-    foreach ($_SESSION['giohang'] as $id_sanpham => $soluong) {
-		$product_query = mysqli_query($kn, "SELECT * FROM sanpham WHERE id_sp = $id_sanpham");
-     if ($product_query && mysqli_num_rows($product_query) > 0) {
-        $product_row = mysqli_fetch_assoc($product_query);
-        $price = $product_row['gia'];
-		
-		$sql_insert = "INSERT INTO `giohangtemp`(`id`, `name`, `id_sanpham`, `soluong`, `gia`)
-               VALUES (null, '".$user."', '".$id_sanpham."', '".$soluong."','".$price."');";
-	$kn->query($sql_insert);
-		}
     
-	}
+    // Xóa thông tin giỏ hàng cũ của người dùng trong cơ sở dữ liệu
+    // $sql_delete = "DELETE FROM giohangtemp WHERE name = '".$user."'";
+    // $kn->query($sql_delete);
+	$product_query = mysqli_query($kn, "SELECT * FROM sanpham WHERE id_sp IN (".implode(",", array_keys($_SESSION["giohang"])).")");
+    // Lưu thông tin giỏ hàng mới vào cơ sở dữ liệu
+	$insertString ="";
+    foreach ($_SESSION['giohang'] as $id_sanpham => $soluong) {
+        if($product_query && mysqli_num_rows($product_query) > 0) {
+            $product_row = mysqli_fetch_assoc($product_query);
+			//var_dump($product_row);	
+            $price = $product_row['gia'];
+			$insertString .="('".$user."', '".$id_sanpham."', '".$soluong."', '".$price."')";
+			if ($product_query&&(mysqli_num_rows($product_query)-1)>0) {
+                    $insertString .= ",";
+							}
+        }
+    }
+	$insertString = rtrim($insertString, ',');//bỏ dấu phẩy cuối cùng
+	//var_dump($insertString);
+	$sql_insert = "INSERT INTO giohangtemp ( name, id_sanpham, soluong, gia) VALUES " . $insertString . "";	   
+    $inserTemp = mysqli_query($kn,$sql_insert );
     // Xóa session giỏ hàng
     unset($_SESSION['giohang']);
 

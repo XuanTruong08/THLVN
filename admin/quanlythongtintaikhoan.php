@@ -7,7 +7,10 @@
     <title>Quản Lý Thông Tin Tài Khoản</title>
 </head>
 <body>
-		<?php include "header.php" ; ?>
+		
+		<?php include "header.php" ;
+		if (!empty($_SESSION['username'])) {		
+		?>
 
         <div class="content" >
             <div align="center"><h2>Quản lý thông tin tài khoản</h2></div>
@@ -17,8 +20,6 @@
                         <th>Tên đăng nhập</th>
                         <th>Mật khẩu</th>
                         <th>Email</th>
-                        <th>Địa chỉ</th>
-                        <th>Số điện thoại</th>
                         <th>Hành động</th>
                     </tr>
                 </thead>
@@ -32,8 +33,6 @@
                             <td> <?= $row['tendangnhap']?> </td>
                             <td> <?= $row['matkhau'] ?></td>
                             <td> <?= $row['email']?> </td>
-                            <td><?= $row['diachi'] ?></td>
-                            <td> <?= $row['sodt']?> </td>
                             <td><a href="http://localhost/bansach/THLVN/admin/suataikhoan.php?id=<?$row['id']?>" >Sửa</a></td>
                             </tr>
                     <?php }?>
@@ -42,6 +41,8 @@
         </div>
         
     </div>
-
+		<?php	 
+}
+?>
 </body>
 </html>
