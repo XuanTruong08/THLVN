@@ -10,7 +10,10 @@
 		<?php include "header.php" ; ?>
 
         <div class="content" >
-            <div align="center"><h2>Quản lý thông tin tài khoản</h2></div>
+            <div align="center">
+                <h2>Quản lý sách</h2> 
+                <a href="http://localhost/bansach/THLVN/admin/themsach.php">Thêm</a>
+            </div>
             <table class="customer-table">
                 <thead>
                     <tr>
@@ -37,8 +40,10 @@
                             <td><?= $row['soluong'] ?></td>
                             <td> <?= $row['gia']?> </td>
                             <td> <?= $row['theloai']?> </td>
-                            <td><a href="http://localhost/bansach/THLVN/admin/suataikhoan.php?id=<?$row['id']?>&& submit='delete'">Xóa</a></td>
-                            <td><a href="http://localhost/bansach/THLVN/admin/suasach.php?id=<?$row['id_sp']?>" >Sửa</a></td>
+                            <form action="<?php echo ($_SERVER['PHP_SELF']);?>" method="post">
+                                <td><a href="http://localhost/bansach/THLVN/admin/suataikhoan.php?id=<?= $row['id_sp']?>&& submit='delete'">Xóa</a></td>
+                                <td><a href="http://localhost/bansach/THLVN/admin/suasach.php?id=<?= $row['id_sp']?>" >Sửa</a></td>
+                            </form>
                             </tr>
                     <?php }?>
                 </tbody>

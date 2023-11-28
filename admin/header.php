@@ -22,7 +22,7 @@ and open the template in the editor.
             <div class="sidebar" style="    border-radius: 20px;">
                 <ul>
                         <h2>Chào mừng </h2>
-                        <li><a href="http://">Quản lý sách</a></li>
+                        <li><a href="quanlysach.php">Quản lý sách</a></li>
                         <li><a href="quanlythongtintaikhoan.php">Quản lý Thông Tin Tài Khoản</a></li>
                         <li><a href="quanlyhoadon.php">Quản lý Đơn Hàng</a></li>
                         <li><a href="http://">Quản lý Thống kê</a></li>
