@@ -25,7 +25,7 @@ and open the template in the editor.
                         <li><a href="quanlysach.php">Quản lý sách</a></li>
                         <li><a href="quanlythongtintaikhoan.php">Quản lý Thông Tin Tài Khoản</a></li>
                         <li><a href="quanlyhoadon.php">Quản lý Đơn Hàng</a></li>
-                        <li><a href="http://">Quản lý Thống kê</a></li>
+                        <li><a href="thongke.php">Quản lý Thống kê</a></li>
                         <li><a href="dangxuat.php">Đăng Xuất</a></li>    
                 </ul>
             </div>

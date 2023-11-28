@@ -1,0 +1,59 @@
+*{
+	margin:0;
+	padding:0;
+}
+#wrapper{
+	width: 1390px;
+	height:900px;
+	margin: 200px auto;
+	margin-top:10px;
+    margin-right:0;
+	background-color: #ffffff;
+    
+
+}
+h3 {
+    text-align: center;
+  }
+  
+
+  .bien {
+
+        box-sizing: border-box;
+        background-color: rgb(129, 125, 125);
+        width: 400px;
+        height: 25px;
+    }
+    .button{
+        box-sizing: content-box;
+        color:#ffffff;
+       background-color: orangered;
+        width: 150px;
+        height: 20px;
+        border-radius: 20px;
+    }
+    .noidung {
+        box-sizing: content-box;
+       background-color:rgb(129, 125, 125);;
+        width: 400px;
+        height: 100px;
+
+    }
+    
+.main-menu-right{
+
+	width:100%;
+	display: flex;
+	justify-content: right;
+}
+#main-menu-right1{
+	width:140px;
+	display:flex;
+}
+
+#main-menu-right2{
+    margin: 20px;
+	width:240px;
+	display: flex;
+}   
+

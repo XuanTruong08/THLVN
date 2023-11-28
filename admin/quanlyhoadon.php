@@ -84,7 +84,7 @@
 						<td><?=$row['diachi'] ?></td>
 						<td><?=$row['sodienthoai'] ?></td>
 						<td><?=$row['tongtien'] ?></td>
-						<td><a href="order_printing.php?id=<?=$row['id_gh']?>" target="_blank">In</a></td>
+						<td><a href="inGoiHang.php?id=<?=$row['id_gh']?>" target="_blank">In</a></td>
 					</tr>
                 <?php } ?>
             </ul>

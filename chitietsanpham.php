@@ -6,11 +6,12 @@ and open the template in the editor.
 -->
 <?php 
 	session_start();
-	require_once "connect_db.php";
-	if(empty($_SESSION['username'])){
-		header("location: http://localhost/bansach/THLVN/dangnhap.php");
-		exit;
-	}
+	require_once "./connect_db.php";
+	include "header.php"
+	// if(empty($_SESSION['username'])){
+		// header("location: http://localhost/bansach/THLVN/dangnhap.php");
+		// exit;
+	// }
 ?>
 <html>
     <head>
@@ -18,15 +19,14 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" href="css/style_detail.css">
+		<link rel="stylesheet" href="css/giaodien.css">
     </head>
     <body>
         <?php
-        include './connect_db.php';
-        $result = mysqli_query($kn, "SELECT * FROM `sanpham` WHERE `id_sp` =1 ");//.$_GET['id']
+		
+        $result = mysqli_query($kn, "SELECT * FROM `sanpham` WHERE `id_sp` = ".$_GET['id']);//.$_GET['id']
         $product = mysqli_fetch_assoc($result);
-        $imgLibrary = mysqli_query($kn, "SELECT * FROM `khoanh` WHERE `id_sanpham` = 1 ");//.$_GET['id']
-        $product['hinh_sp'] = mysqli_fetch_all($imgLibrary, MYSQLI_ASSOC);
-		if($product['soluong']>0){
+        if($product['soluong']>0){
         ?>
         <div class="container">
             <h2>Chi tiết sản phẩm</h2>
@@ -44,13 +44,6 @@ and open the template in the editor.
 						<input type="submit" value="Mua sản phẩm" />
 					</form>
                     <?php if(!empty($product['hinh_sp'])){ ?>
-                    <div id="gallery">
-                        <ul>
-                            <?php foreach($product['hinh_sp'] as $img) { ?>
-                                <li><img src="admin1/<?=$img['path']?>" /></li>
-                            <?php } ?>
-                        </ul>
-                    </div>
                     <?php } ?>
                 </div>
                 <div class="clear-both"></div>
@@ -62,21 +55,13 @@ and open the template in the editor.
             <h2>Chi tiết sản phẩm</h2>
             <div id="product-detail">
                 <div id="product-img">
-                    <img src="admin1/<?=$product['hinh_sp']?>" />
+                    <img src="<?=$product['hinh_sp']?>" />
                 </div>
                 <div id="product-info">
-                    <h1><?=$product['ten']?></h1>
+                    <h1><?=$product['ten_sp']?></h1>
                     <label>Giá: </label><span class="product-price"><?= number_format($product['gia'], 0, ",", ".") ?> VND</span><br/>
                     <p><h2>Hết hàng</h2></p>
-                    <?php if(!empty($product['hinh_sp'])){ ?>
-                    <div id="gallery">
-                        <ul>
-                            <?php foreach($product['hinh_sp'] as $img) { ?>
-                                <li><img src="admin1/<?=$img['path']?>" /></li>
-                            <?php } ?>
-                        </ul>
-                    </div>
-                    <?php } ?>
+                   
                 </div>
                 <div class="clear-both"></div>
                 <?=$product['chitiet']?>

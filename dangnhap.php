@@ -16,17 +16,27 @@
 		if(isset($_POST['username']) && isset($_POST['password'])) {
         $username = $_POST['username'];
         $password = ($_POST['password']);
-		$sql="select * from taikhoan where tendangnhap='".$username."' and matkhau='".$password."'";
-		$result=mysqli_query($kn,$sql);
-		if($row= mysqli_fetch_array($result)){
-			$_SESSION['username']=$row['tendangnhap'];
+		$sql_khach="select * from taikhoan where tendangnhap='".$username."' and matkhau='".$password."'";
+		$result_khach=mysqli_query($kn,$sql_khach);
+		$sql_admin="select * from admin where Username='".$username."' and Password='".$password."'";
+		$result_admin=mysqli_query($kn,$sql_admin);
+		
+		if (mysqli_num_rows($result_khach) > 0) {
+			// Đăng nhập thành công với tài khoản người dùng
+			$row = mysqli_fetch_array($result_khach);
+			$_SESSION['username'] = $row['tendangnhap'];
 			header("location: TrangChu.php");
-		}else{
+		} elseif (mysqli_num_rows($result_admin) > 0) {
+			// Đăng nhập thành công với tài khoản quản trị
+			$row = mysqli_fetch_array($result_admin);
+			$_SESSION['username'] = $row['Username'];
+			header("location: admin/quanlysach.php");
+		} else {
 			echo "<script>
-				alert('Nhap sai tai khoan hoac mat khau');
+				alert('Vui lòng nhập lại thông tin');
 				window.history.back();
 				</script>";
-			header('location: dangnhap.php');
+				//header('location: dangnhap.php');
 		}		
 		mysqli_close($kn);
     }
@@ -36,8 +46,8 @@
     <div class="container">
         <h2>Đăng nhập</h2>
        <form method ="POST" action ="<?php echo ($_SERVER['PHP_SELF']);?>" align ="center" >
-            <input type="text" placeholder="Tên đăng nhập" name="username" required>
-            <input type="password" placeholder="Mật khẩu" name="password" required>
+            <input type="text" placeholder="Tên đăng nhập" name="username">
+            <input type="password" placeholder="Mật khẩu" name="password">
             <div>
                 <input type="checkbox" id="rememberMe" name="rememberMe">
                 <label for="rememberMe">Lưu đăng nhập</label>
@@ -45,6 +55,7 @@
             <button type="submit" name="dn">Đăng nhập</button>
         </form>
         <p>Bạn chưa có tài khoản? <a href="http://localhost/bansach/THLVN/dangki.php">Đăng ký ngay</a></p>
+		<script src="script.js"></script>
     </div>
 </body>
 </html>
