@@ -10,7 +10,7 @@
     <?php
     include '../connect_db.php';
     ?>
-    <a href="http://localhost/bansach/THLVN/admin/quanlysach.php" class="back-to-menu ">quay lại menu quản lí </a>
+    <a href="http://localhost/bansach/THLVN/admin/quanlysach.php" class="back-to-menu">quay lại menu quản lí</a>
         <form action="<?php echo ($_SERVER['PHP_SELF']);?>" method="post" enctype="multipart/form-data">
         <div class ="form-container">
                 <div class="form-left">
@@ -28,7 +28,7 @@
                             
                         <label>Thể Loại</label>
                             <li> 
-                                <select name="theloai" style=";" >
+                                <select name="theloai"  >
                                     <?php
                                         include './connect_db.php';
                                         $query = "SELECT * FROM theloai";
@@ -55,7 +55,6 @@
         <?php
         include '../connect_db.php'; 
             if (isset($_POST['them'])){
-
                 $ten_sp=$_POST['ten_sp'];
                 $soluong=$_POST['soluong'];
                 $tentacgia=$_POST['tentacgia'];
@@ -63,6 +62,7 @@
                 $chitiet=$_POST['chitiet'];                
                 $theloai=$_POST['theloai'];
                     $image = $_FILES["hinh_sp"];
+             
                     $image_name = $image["name"];
                     // Kiểm tra và di chuyển tệp tin vào thư mục lưu trữ (hoặc thực hiện các xử lý khác tùy ý)
                     $upload_dir = "./images/";
